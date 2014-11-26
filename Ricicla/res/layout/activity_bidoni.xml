@@ -7,23 +7,26 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ricicla.BidoniActivity" >
-
-    <SearchView
-        android:id="@+id/searchView1"
-        android:layout_width="wrap_content"
+    
+    <EditText
+        android:id="@+id/inputSearch2"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="83dp"
-        android:minWidth="400dp" >
-    </SearchView>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="89dp"
+        android:ems="10"
+        android:hint="Search garbages.."
+        android:inputType="textVisiblePassword" >
+        <requestFocus />
+     </EditText>
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/listView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/searchView1"
-        android:layout_below="@+id/searchView1" >
+        android:layout_below="@+id/inputSearch2" >
+
     </ListView>
 
 </RelativeLayout>

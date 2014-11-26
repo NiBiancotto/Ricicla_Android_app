@@ -8,13 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
+import android.widget.ImageButton;;
 public class MainActivity extends Activity {
 	private Button buttonSearch;
 	private Button buttonBidone;
 	private Button buttonCalendario;
 	private Button buttonHelp;
 	private Button buttonExit;
+	private ImageButton buttonInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
 		buttonCalendario = (Button) findViewById(R.id.button3);
 		buttonHelp = (Button) findViewById(R.id.button4);
 		buttonExit = (Button) findViewById(R.id.button5);
+		buttonInfo = (ImageButton) findViewById(R.id.imageButton1);
 		
 		
 		
@@ -63,6 +65,13 @@ public class MainActivity extends Activity {
 					finish();
 					break;
 					
+				case R.id.imageButton1:
+					Intent intent5 = new Intent(MainActivity.this,
+							InfoActivity.class);
+					startActivity(intent5);
+					finish();
+					break;
+					
 				case R.id.button5:
 					finish();
 					break;
@@ -76,6 +85,7 @@ public class MainActivity extends Activity {
 		buttonCalendario.setOnClickListener(OcLi);
 		buttonHelp.setOnClickListener(OcLi);
 		buttonExit.setOnClickListener(OcLi);
+		buttonInfo.setOnClickListener(OcLi);
 	}
 
 	@Override

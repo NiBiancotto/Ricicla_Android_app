@@ -2,30 +2,74 @@ package com.example.ricicla;
 
 import java.util.ArrayList;
 
+import SQLite.DBHelper;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class BidoniActivity extends Activity {
+	private DBHelper helper;
+	private ListView garbageList;
+	private EditText inputSearch;
+	private ArrayAdapter<String> adapter;
+	private ArrayList<String> garbageArrayList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bidoni);
-		
-		final ListView bidoniList = (ListView) findViewById(R.id.listView1);
 
-	    String[] values = new String[] { "Indifferenziata", "Umido", "Carta" };
-	    
+		helper = new DBHelper(this);
 
-	    ArrayList <String> bidoniArrayList = new ArrayList <String>();
-	    for(String item : values)bidoniArrayList.add(item);
-	    final ArrayAdapter <String> adapter = new ArrayAdapter <String> (this,android.R.layout.simple_list_item_1, bidoniArrayList);
-	    bidoniList.setAdapter(adapter);
+		garbageArrayList = helper.getAllGarbage();
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, garbageArrayList);
+
+		garbageList = (ListView) findViewById(R.id.listView2);
+		garbageList.setAdapter(adapter);
+		inputSearch = (EditText) findViewById(R.id.inputSearch2);
 		
+		garbageList.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            	Intent myIntent = new Intent(BidoniActivity.this, ShowProdActivity.class);
+            	myIntent.putExtra("GB",(String) ((TextView) view).getText());
+            	startActivity(myIntent);
+            }
+          });
+		
+		inputSearch.addTextChangedListener(new TextWatcher() {
+		     
+		    @Override
+		    public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+		        // When user changed the Text
+		        BidoniActivity.this.adapter.getFilter().filter(cs);  
+		    }
+		     
+		    @Override
+		    public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+		            int arg3) {
+		        // TODO Auto-generated method stub
+		         
+		    }
+		     
+		    @Override
+		    public void afterTextChanged(Editable arg0) {
+		        // TODO Auto-generated method stub                         
+		    }
+		});
+
 	}
 
 	@Override

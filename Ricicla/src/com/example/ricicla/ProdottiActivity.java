@@ -2,52 +2,83 @@ package com.example.ricicla;
 
 import java.util.ArrayList;
 
+
 import SQLite.DBHelper;
 import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.TextView;
 
 public class ProdottiActivity extends Activity {
-	
-	
+	private DBHelper helper;
+	private ListView productList;
+	private EditText inputSearch;
+	private ArrayAdapter<String> adapter;
+	private ArrayList<String> productArrayList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ricerca);
 
-		DBHelper helper = new DBHelper(getApplicationContext());
-		helper.getReadableDatabase();
-		
-		final ListView productList = (ListView) findViewById(R.id.listView1);
-		
+		helper = new DBHelper(this);
 
-		String[] values = new String[] { "Accendini", "Barattoli in latta",
-				"Carta carbone" };
-
-		ArrayList<String> productArrayList = new ArrayList<String>();
-		for (String item : values)
-			productArrayList.add(item);
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+		
+		productArrayList = helper.getAllProduct();
+		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, productArrayList);
+
+		productList = (ListView) findViewById(R.id.listView1);
 		productList.setAdapter(adapter);
-
-		productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				
-				/*final String product = (String)parent.getItemAtPosition(position);
-				Log.d("Ho cliccato su", product);*/
-				
-			}
+		inputSearch = (EditText) findViewById(R.id.inputSearch);
+		productList.setTextFilterEnabled(true);
+		
+		
+		
+		productList.setOnItemClickListener(new OnItemClickListener() {
+	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	            	ArrayList<String> garbageArrayList = helper.getAllGarbage();
+	            	String prd = (String) ((TextView) view).getText();
+	            	String sh = helper.getSpecGarb(prd);
+	                // Quando cliccato visualizza un Toast col nome del bidone
+	                Toast.makeText(getApplicationContext(), ((sh)), Toast.LENGTH_SHORT).show();
+	            }
+	          });
+		
+		inputSearch.addTextChangedListener(new TextWatcher() {
+		     
+		    @Override
+		    public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+		        // When user changed the Text
+		        ProdottiActivity.this.adapter.getFilter().filter(cs);  
+		    }
+		     
+		    @Override
+		    public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+		            int arg3) {
+		        // TODO Auto-generated method stub
+		         
+		    }
+		     
+		    @Override
+		    public void afterTextChanged(Editable arg0) {
+		        // TODO Auto-generated method stub                         
+		    }
 		});
 
 	}
