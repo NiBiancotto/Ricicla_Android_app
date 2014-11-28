@@ -2,7 +2,7 @@ package com.example.ricicla;
 
 import java.util.ArrayList;
 
-import SQLite.DBHelper;
+import SQLite.DBAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class BidoniActivity extends Activity {
-	private DBHelper helper;
+	private DBAdapter helper;
 	private ListView garbageList;
 	private EditText inputSearch;
 	private ArrayAdapter<String> adapter;
@@ -31,9 +31,9 @@ public class BidoniActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bidoni);
 
-		helper = new DBHelper(this);
+		//helper = new DBAdapter(this);
 
-		garbageArrayList = helper.getAllGarbage();
+		//garbageArrayList = helper.getAllGarbage();
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, garbageArrayList);
 
