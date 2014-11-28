@@ -1,11 +1,14 @@
 package com.example.ricicla;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-import SQLite.DBHelper;
+import Model.Prodotti;
+import SQLite.DBAdapter;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
@@ -13,6 +16,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,23 +29,30 @@ import android.widget.Toast;
 import android.widget.TextView;
 
 public class ProdottiActivity extends Activity {
-	private DBHelper helper;
+	private DBAdapter helper;
 	private ListView productList;
 	private EditText inputSearch;
 	private ArrayAdapter<String> adapter;
-	private ArrayList<String> productArrayList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		DBAdapter.init(this);
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ricerca);
-
-		helper = new DBHelper(this);
-
 		
-		productArrayList = helper.getAllProduct();
+		DBAdapter.addProduct(new Prodotti("Prova", "Prova"));
+				
+		List <Prodotti> productArrayList = DBAdapter.getAllProduct();		
+		ArrayList <String> pl = new ArrayList <String>();
+		
+		for(Prodotti item : productArrayList){
+			pl.add(productArrayList.indexOf(item),item.get_nome());
+			}
+		
 		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, productArrayList);
+				android.R.layout.simple_list_item_1, pl);
+
 
 		productList = (ListView) findViewById(R.id.listView1);
 		productList.setAdapter(adapter);
@@ -50,7 +61,7 @@ public class ProdottiActivity extends Activity {
 		
 		
 		
-		productList.setOnItemClickListener(new OnItemClickListener() {
+		/*productList.setOnItemClickListener(new OnItemClickListener() {
 	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 	            	ArrayList<String> garbageArrayList = helper.getAllGarbage();
 	            	String prd = (String) ((TextView) view).getText();
@@ -58,7 +69,7 @@ public class ProdottiActivity extends Activity {
 	                // Quando cliccato visualizza un Toast col nome del bidone
 	                Toast.makeText(getApplicationContext(), ((sh)), Toast.LENGTH_SHORT).show();
 	            }
-	          });
+	          });*/
 		
 		inputSearch.addTextChangedListener(new TextWatcher() {
 		     
@@ -81,13 +92,6 @@ public class ProdottiActivity extends Activity {
 		    }
 		});
 
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.ricerca, menu);
-		return true;
 	}
 
 	@Override

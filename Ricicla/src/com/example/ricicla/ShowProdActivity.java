@@ -2,7 +2,7 @@ package com.example.ricicla;
 
 import java.util.ArrayList;
 
-import SQLite.DBHelper;
+import SQLite.DBAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 public class ShowProdActivity extends Activity {
-	private DBHelper helper;
+	private DBAdapter helper;
 	private ListView showList;
 	private EditText inputSearch;
 	private ArrayAdapter<String> adapter;
@@ -29,9 +29,9 @@ public class ShowProdActivity extends Activity {
 		Intent myIntent = getIntent(); // gets the previously created intent
 		String grb = myIntent.getStringExtra("GB");
 
-		helper = new DBHelper(this);
+		//helper = new DBAdapter(this);
 
-		showArrayList = helper.getSpecProds(grb);
+		//showArrayList = helper.getSpecProds(grb);
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, showArrayList);
 

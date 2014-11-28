@@ -42,6 +42,20 @@
             android:name=".ExitActivity"
             android:label="@string/title_activity_exit" >
         </activity>
+        <activity
+            android:name=".InfoActivity"
+            android:label="@string/title_activity_info" >
+        </activity>
+        <activity
+            android:name=".ShowProdActivity"
+            android:label="@string/title_activity_show_prod" >
+        </activity>
+        <activity
+            android:name=".MostraCalendarioActivity"
+            android:label="@string/title_activity_mostra_calendario" >
+        </activity>
     </application>
+    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

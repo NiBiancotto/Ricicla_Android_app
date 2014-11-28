@@ -1,7 +1,11 @@
 package com.example.ricicla;
 
+import java.io.IOException;
+
+import SQLite.DBAdapter;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +32,6 @@ public class MainActivity extends Activity {
 		buttonHelp = (Button) findViewById(R.id.button4);
 		buttonExit = (Button) findViewById(R.id.button5);
 		buttonInfo = (ImageButton) findViewById(R.id.imageButton1);
-		
-		
 		
 		OnClickListener OcLi = new OnClickListener() {
 
