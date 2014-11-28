@@ -8,12 +8,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ricicla.CalendarioActivity" >
 
-    <CalendarView
-        android:id="@+id/calendarView1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="49dp" />
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="68dp"
+        android:height="40dp"
+        android:text="Seleziona un rione"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:width="200dp" />
+
+    <ListView
+        android:id="@+id/listView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView1" >
+    </ListView>
 
 </RelativeLayout>
