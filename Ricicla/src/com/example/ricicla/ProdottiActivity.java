@@ -1,23 +1,12 @@
 package com.example.ricicla;
 
 import java.util.ArrayList;
-import java.util.List;
-
-
-import Model.Prodotti;
 import SQLite.DBAdapter;
 import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,40 +25,39 @@ public class ProdottiActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		DBAdapter.init(this);
-		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ricerca);
+		helper = new DBAdapter(this);
 		
-		DBAdapter.addProduct(new Prodotti("Prova", "Prova"));
+		/*if(helper.countProd() == 0){
+		helper.createProducts("Foglio di Carta", "Carta");
+		helper.createProducts("Carne", "Umido");
+		helper.createProducts("Lattina", "Latta");
+		helper.createProducts("Pesce", "Umido");
+		helper.createProducts("Frutta", "Organico");
+		helper.createProducts("Formaggio", "Organico");
+		}*/
 				
-		List <Prodotti> productArrayList = DBAdapter.getAllProduct();		
-		ArrayList <String> pl = new ArrayList <String>();
-		
-		for(Prodotti item : productArrayList){
-			pl.add(productArrayList.indexOf(item),item.get_nome());
-			}
+		ArrayList <String> productArrayList = helper.fetchProduct();	
 		
 		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, pl);
-
+				android.R.layout.simple_list_item_1, productArrayList);
 
 		productList = (ListView) findViewById(R.id.listView1);
 		productList.setAdapter(adapter);
 		inputSearch = (EditText) findViewById(R.id.inputSearch);
 		productList.setTextFilterEnabled(true);
 		
-		
-		
-		/*productList.setOnItemClickListener(new OnItemClickListener() {
+	
+		productList.setOnItemClickListener(new OnItemClickListener() {
 	            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	            	ArrayList<String> garbageArrayList = helper.getAllGarbage();
 	            	String prd = (String) ((TextView) view).getText();
-	            	String sh = helper.getSpecGarb(prd);
-	                // Quando cliccato visualizza un Toast col nome del bidone
-	                Toast.makeText(getApplicationContext(), ((sh)), Toast.LENGTH_SHORT).show();
+	            	String sh = helper.fetchAGarbage(prd);
+	                Toast toast = Toast.makeText(getApplicationContext(), ((sh)), Toast.LENGTH_LONG);
+	                toast.setGravity(Gravity.CENTER, 0, 0);
+	                toast.show();	                
 	            }
-	          });*/
+	          });
 		
 		inputSearch.addTextChangedListener(new TextWatcher() {
 		     
@@ -93,6 +81,12 @@ public class ProdottiActivity extends Activity {
 		});
 
 	}
+	
+	@Override
+	public void onBackPressed() {
+		finish();
+	}
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
